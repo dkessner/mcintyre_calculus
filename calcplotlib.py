@@ -112,3 +112,17 @@ def draw_riemann(f, x_start, x_end, dx, stroke, fill=None):
     turtle.tracer(True)
 
 
+
+def draw_vector(pos, vec, color="gray"):
+    """Draws a vector as an arrow"""
+    turtle.penup()
+    turtle.goto(pos)
+    turtle.pendown()
+    turtle.pensize(1)
+    turtle.color(color)
+    angle = turtle.towards(pos + vec)
+    mag = abs(vec)
+    turtle.seth(angle)
+    turtle.fd(mag)
+    turtle.stamp()
+    turtle.penup()
