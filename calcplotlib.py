@@ -126,3 +126,69 @@ def draw_vector(pos, vec, color="gray"):
     turtle.fd(mag)
     turtle.stamp()
     turtle.penup()
+
+#
+# ch 6
+#
+
+FIELD = []
+X_MIN = -200
+Y_MIN = -200
+X_MAX = 200
+Y_MAX = 200
+
+def create_field(spacing=50, color="gray80"):
+    """Create a list of Turtles to visualize a vector field."""
+    turtle.tracer(False)
+    start_x = X_MIN - (X_MIN % (-spacing))
+    end_x = X_MAX - (X_MAX % spacing) + 1
+    
+    start_y = Y_MIN - (Y_MIN % (-spacing))
+    end_y = Y_MAX - (Y_MAX % spacing) + 1
+    for x in range(start_x, end_x, spacing):
+        for y in range(start_y, end_y, spacing):
+            t = turtle.Turtle()
+            t.speed(0)
+            t.hideturtle()
+            t.color(color)
+            t.penup()
+            t.goto(x, y)
+            FIELD.append(t)
+    turtle.tracer(True)
+
+
+
+def hide_field():
+    """Hide the Turtle objects used to draw vector fields."""
+    turtle.tracer(False)
+    for t in FIELD:
+        t.hideturtle()
+    turtle.tracer(True)
+
+
+def show_field():
+    """Show the Turtle objects used to draw vector fields."""
+    turtle.tracer(False)
+    for t in FIELD:
+        t.showturtle()
+    turtle.tracer(True)
+
+
+def draw_field(field, scale=0.007, min_scale=0.001):
+    """Draw a vector field using arrows."""
+    show_field()
+    turtle.tracer(False)
+    for t in FIELD:
+        # Calculate the field.
+        state = t.pos()
+        change = field(state)
+        # Find a point along the field.
+        next_state = state + change
+        angle = t.towards(next_state)
+        t.seth(angle)
+        # Set the turtle's size based on the
+        # field's magnitude.
+        size = abs(change) * scale + min_scale
+        t.shapesize(size)
+    turtle.tracer(True)
+
