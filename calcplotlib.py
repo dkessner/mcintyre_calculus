@@ -192,3 +192,32 @@ def draw_field(field, scale=0.007, min_scale=0.001):
         t.shapesize(size)
     turtle.tracer(True)
 
+
+
+def integrate_field(field, initial_state, t_f, dt=0.005):
+    """Integrate a vector field and return a trajectory."""
+    trajectory = [initial_state]
+    num_steps = int(t_f / dt)
+    for i in range(1, num_steps):
+        state = trajectory[i - 1]
+        change = field(state)
+        next_state = state + dt * change
+        trajectory.append(next_state)
+    return trajectory
+
+def draw_trajectory(trajectory, color="gray0"):
+    """Draw a trajectory through a vector field."""
+    turtle.tracer(False)
+    # Prepare to draw.
+    initial_state = trajectory[0]
+    turtle.penup()
+    turtle.goto(initial_state)
+    turtle.pendown()
+    turtle.pensize(1)
+    turtle.color(color)
+    # Integrate the vector field.
+    for state in trajectory:
+        turtle.goto(state)
+    turtle.tracer(True)
+
+
