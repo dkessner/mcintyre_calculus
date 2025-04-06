@@ -221,3 +221,19 @@ def draw_trajectory(trajectory, color="gray0"):
     turtle.tracer(True)
 
 
+def integrate_field_2(field, initial_state, t_f, dt=0.0001):
+    """Integrate a vector field and return a trajectory."""
+    trajectory = [initial_state]
+    num_steps = int(t_f / dt)
+    num_vars = len(initial_state)
+    for i in range(1, num_steps):
+        state = trajectory[i - 1]
+        change = field(state)
+        next_state = []
+        for j in range(num_vars):
+            next_state.append(state[j] + dt * change[j])
+        trajectory.append(next_state)
+    return trajectory
+
+
+
